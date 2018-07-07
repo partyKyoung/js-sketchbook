@@ -1,15 +1,16 @@
-function getExif(image) {
-  EXIF.getData(image.value, function() {
-    console.log("test");
-  });
+function getExif(file) {
+  const reader = new FileReader();
+  const imageViewer = document.getElementById("imageViewer");
+  const image = file.files[0];
 
-  // var img1 = document.getElementById("img1");
-  // EXIF.getData(img1, function() {
-  //   var make = EXIF.getTag(this, "Make");
-  //   var model = EXIF.getTag(this, "Model");
-  //   var makeAndModel = document.getElementById("makeAndModel");
-  //   makeAndModel.innerHTML = `${make} ${model}`;
-  // });
+  reader.onload = e => {
+    EXIF.getData(image, () => {
+      const tags = EXIF.getAllTags(image);
 
-  // var img2 = document.getElementById("img2");
+      // 이미지 미리보기
+      imageViewer.style.backgroundImage = `url(${e.target.result})`;
+    });
+  };
+
+  reader.readAsDataURL(image);
 }
